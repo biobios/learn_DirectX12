@@ -1,6 +1,9 @@
 #pragma once
 #include "Color.h"
 namespace Mylma::Graphics3D {
+	/// <summary>
+	/// ウィンドウの3Dレンダリングを行います
+	/// </summary>
 	class IRenderer3D {
 	public:
 		virtual void clear() = 0;
