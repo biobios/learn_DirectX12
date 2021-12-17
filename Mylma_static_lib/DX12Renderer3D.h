@@ -28,7 +28,8 @@ namespace Mylma::Graphics3D {
 			ID3D12GraphicsCommandList* commandList,
 			ID3D12CommandQueue* commandQue,
 			ID3D12DescriptorHeap* rtvHeaps,
-			ID3D12Device* device
+			ID3D12Device* device,
+			std::array<ID3D12Resource*, 2> sc_backBuffers
 			);
 		void clear() override;
 		void execute() override;
@@ -55,5 +56,7 @@ namespace Mylma::Graphics3D {
 		D3D12_CPU_DESCRIPTOR_HANDLE current_rtv_Handle = {};
 		ID3D12Fence* fence;
 		UINT64 fenceVal = 0;
+		D3D12_RESOURCE_BARRIER bb_resrc_barr;
+		std::array<ID3D12Resource*, 2> sc_backBuffers;
 	};
 }

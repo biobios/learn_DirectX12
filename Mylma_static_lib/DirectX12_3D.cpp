@@ -171,7 +171,7 @@ Mylma::GUI::IWindow3DRef Mylma::Graphics3D::DirectX12_3D::createWindow(const std
 		handle.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	}
 
-	renderers.insert(new Mylma::Graphics3D::DX12Renderer3D(this, &window, cmdAllocator, swapchain, cmdList, cmdQueue, rtvHeaps, device));
+	renderers.insert(new Mylma::Graphics3D::DX12Renderer3D(this, &window, cmdAllocator, swapchain, cmdList, cmdQueue, rtvHeaps, device, sc_backBuffers));
 	return window;
 }
 

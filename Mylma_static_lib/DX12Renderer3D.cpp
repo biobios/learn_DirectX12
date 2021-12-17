@@ -7,7 +7,8 @@ Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	ID3D12GraphicsCommandList* commandList,
 	ID3D12CommandQueue* commandQue,
 	ID3D12DescriptorHeap* rtvHeaps,
-	ID3D12Device* device
+	ID3D12Device* device,
+	std::array<ID3D12Resource*, 2> backBuffers
 ) {
 	this->dx12 = dx12;
 	this->window_ptr = ptr;
@@ -17,6 +18,7 @@ Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	this->commandQue = commandQue;
 	this->rtvHeaps = rtvHeaps;
 	this->device = device;
+	this->sc_backBuffers = backBuffers;
 
 	device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
@@ -28,6 +30,14 @@ Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 
 	current_rtv_Handle.ptr += bbIdx * device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
+	bb_resrc_barr.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	bb_resrc_barr.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	bb_resrc_barr.Transition.pResource = sc_backBuffers[bbIdx];
+	bb_resrc_barr.Transition.Subresource = 0;
+	bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	commandList->ResourceBarrier(1, &bb_resrc_barr);
 	commandList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
 
 	current_status = Status::READY;
@@ -41,6 +51,11 @@ void Mylma::Graphics3D::DX12Renderer3D::execute() {
 	commandList->Close();
 	ID3D12CommandList* cmdlists[] = { commandList };
 	commandQue->ExecuteCommandLists(1, cmdlists);
+
+	bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	commandList->ResourceBarrier(1, &bb_resrc_barr);
+
 	swapchain->Present(1, 0);
 	current_status = Status::EXECUTING;
 }
@@ -66,6 +81,11 @@ void Mylma::Graphics3D::DX12Renderer3D::reset() {
 
 		current_rtv_Handle.ptr += bbIdx * device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
+		bb_resrc_barr.Transition.pResource = sc_backBuffers[bbIdx];
+		bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+		bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+		commandList->ResourceBarrier(1, &bb_resrc_barr);
 		commandList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
 
 		current_status = Status::READY;
