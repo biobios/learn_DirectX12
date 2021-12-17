@@ -1,28 +1,28 @@
 #pragma once
+#include "RefferenceResolution.h"
 
+#include <string>
 #include <Windows.h>
+#include "IWindow3D.h"
 #include "IGraphics3D.h"
 #include "IRenderer3D.h"
+#include "DirectX12_3D.h"
 
 namespace Mylma::GUI {
-	class Window3D {
+	class DX12Window3D : public IWindow3D {
 	public:
-		Window3D(const TCHAR* window_name, LONG width, LONG height);
+		DX12Window3D(const std::wstring* name, LONG width, LONG height, Mylma::Graphics3D::DirectX12_3DRef direct_x);
 		//void setEventListener();
 		LRESULT wndProc(HWND, UINT, WPARAM, LPARAM) noexcept;
 		static LRESULT CALLBACK messageRouter(HWND, UINT, WPARAM, LPARAM) noexcept;
-		void setVisible(bool);
+		void setVisible(bool) override;
 		HWND getWindowHandle();
-		LONG getWidth();
-		LONG getHeight();
-		void setIGraphics3D(Mylma::Graphics3D::IGraphics3DPtr g);
-		virtual void paint(Mylma::Graphics3D::IRenderer3DRef a);
+		int32_t getWidth() override;
+		int32_t getHeight() override;
 	private:
 		HWND window_handle;
 		LONG width;
 		LONG height;
 	};
 
-	using Window3DPtr = Window3D*;
-	using Window3DRef = Window3D&;
 }

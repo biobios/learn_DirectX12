@@ -1,4 +1,5 @@
 #pragma once
+#include "RefferenceResolution.h"
 #include "Color.h"
 namespace Mylma::Graphics3D {
 	/// <summary>
@@ -13,6 +14,4 @@ namespace Mylma::Graphics3D {
 		virtual void setColor(Mylma::Graphics::ColorRef color) = 0;
 	};
 
-	using IRenderer3DPtr = IRenderer3D*;
-	using IRenderer3DRef = IRenderer3D&;
 }

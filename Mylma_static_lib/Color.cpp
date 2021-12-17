@@ -1,10 +1,10 @@
 #include "Color.h"
 
-const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::BLACK = new Color(0, 0, 0, 1);
-const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::RED = new Color(1, 0, 0, 1);
-const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::GREEN = new Color(0, 1, 0, 1);
-const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::BLUE = new Color(0, 0, 1, 1);
-const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::WHITE = new Color(1, 1, 1, 1);
+const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::BLACK = new Mylma::Graphics::Color(0, 0, 0, 1);
+const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::RED = new Mylma::Graphics::Color(1, 0, 0, 1);
+const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::GREEN = new Mylma::Graphics::Color(0, 1, 0, 1);
+const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::BLUE = new Mylma::Graphics::Color(0, 0, 1, 1);
+const Mylma::Graphics::ColorPtr Mylma::Graphics::Color::WHITE = new Mylma::Graphics::Color(1, 1, 1, 1);
 
 Mylma::Graphics::Color::Color(const float* color) {
 	for (int i = 0; i < 4; i++) {

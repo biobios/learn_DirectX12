@@ -1,4 +1,6 @@
 #pragma once
+#include "RefferenceResolution.h"
+
 namespace Mylma::Graphics {
 	class Color
 	{
@@ -15,6 +17,4 @@ namespace Mylma::Graphics {
 		float rgba[4];
 	};
 
-	using ColorPtr = Color*;
-	using ColorRef = Color&;
 }

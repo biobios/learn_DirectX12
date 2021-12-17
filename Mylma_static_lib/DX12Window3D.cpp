@@ -1,13 +1,15 @@
-#include "Window3D.h"
+#include "DX12Window3D.h"
 
-Mylma::GUI::Window3D::Window3D(const TCHAR* window_name, LONG window_width, LONG window_height) {
+Mylma::GUI::DX12Window3D::DX12Window3D(const std::wstring* name, LONG window_width, LONG window_height,
+	Mylma::Graphics3D::DirectX12_3DRef direct_x) {
+
 	width = window_width;
 	height = window_height;
 
 	WNDCLASSEX w = {};
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)messageRouter;
-	w.lpszClassName = window_name;
+	w.lpszClassName = name->data();
 	w.hInstance = GetModuleHandle(nullptr);
 	
 	RegisterClassEx(&w);
@@ -16,7 +18,7 @@ Mylma::GUI::Window3D::Window3D(const TCHAR* window_name, LONG window_width, LONG
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	window_handle = CreateWindow(w.lpszClassName,
-		window_name,
+		name->data(),
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -28,26 +30,27 @@ Mylma::GUI::Window3D::Window3D(const TCHAR* window_name, LONG window_width, LONG
 		nullptr);
 
 	UnregisterClass(w.lpszClassName, w.hInstance);
+	IWindow3D::graphics = &direct_x;
 }
 
-void Mylma::GUI::Window3D::setVisible(bool visible) {
+void Mylma::GUI::DX12Window3D::setVisible(bool visible) {
 	if (visible) ShowWindow(window_handle, SW_SHOW);
 	else ShowWindow(window_handle, SW_HIDE);
 }
 
-LRESULT CALLBACK Mylma::GUI::Window3D::messageRouter(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) noexcept {
-	Window3D* this_;
+LRESULT CALLBACK Mylma::GUI::DX12Window3D::messageRouter(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) noexcept {
+	DX12Window3DPtr this_;
 	if (msg == WM_CREATE) {
-		this_ = reinterpret_cast<Window3D*>(reinterpret_cast<LPCREATESTRUCT>(lparam)->lpCreateParams);
+		this_ = reinterpret_cast<DX12Window3DPtr>(reinterpret_cast<LPCREATESTRUCT>(lparam)->lpCreateParams);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this_));
 	}
 	else {
-		this_ = reinterpret_cast<Window3D*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		this_ = reinterpret_cast<DX12Window3DPtr>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	}
 	return this_->wndProc(hwnd, msg, wparam, lparam);
 }
 
-LRESULT Mylma::GUI::Window3D::wndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) noexcept {
+LRESULT Mylma::GUI::DX12Window3D::wndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) noexcept {
 	//ウィンドウが破棄されたら呼ばれる
 	if (msg == WM_DESTROY)
 	{
@@ -58,19 +61,14 @@ LRESULT Mylma::GUI::Window3D::wndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
 	return ::DefWindowProc(hwnd, msg, wparam, lparam);//既定の処理
 }
 
-HWND Mylma::GUI::Window3D::getWindowHandle() {
+HWND Mylma::GUI::DX12Window3D::getWindowHandle() {
 	return window_handle;
 }
 
-LONG Mylma::GUI::Window3D::getWidth() {
+int32_t Mylma::GUI::DX12Window3D::getWidth() {
 	return width;
 }
 
-LONG Mylma::GUI::Window3D::getHeight() {
+int32_t Mylma::GUI::DX12Window3D::getHeight() {
 	return height;
-}
-
-void Mylma::GUI::Window3D::paint(Mylma::Graphics3D::IRenderer3DRef r) {
-	//r.setBackground(color);
-	//r.clear();
 }
