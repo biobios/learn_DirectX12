@@ -18,6 +18,20 @@ namespace Mylma {
 		class Color;
 		using ColorPtr = Color*;
 		using ColorRef = Color&;
+
+		using PixelPtr = void*;
+
+		class Image;
+		using ImagePtr = Image*;
+		using ImageRef = Image&;
+
+		class IImageReader;
+		using IImageReaderPtr = IImageReader*;
+		using IImageReaderRef = IImageReader&;
+
+		class CVImageReader;
+		using CVImageReaderPtr = CVImageReader*;
+		using CVImageReaderRef = CVImageReader&;
 	}
 	namespace Graphics3D {
 		class DirectX12_3D;
