@@ -1,8 +1,7 @@
 #pragma once
 #include "RefferenceResolution.h"
+#include "includingDirectX12.h"
 
-#include <d3d12.h>
-#include <dxgi1_6.h>
 #include "IRenderer3D.h"
 #include "DirectX12_3D.h"
 #include "DX12Window3D.h"

@@ -3,8 +3,6 @@
 #include <iostream>
 #endif
 
-#include "needInclude.h"
-
 #include "IWindow3D.h"
 #include "DirectX12_3D.h"
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "RefferenceResolution.h"
+#include "includingDirectX12.h"
 
 #include <string>
 #include <Windows.h>
