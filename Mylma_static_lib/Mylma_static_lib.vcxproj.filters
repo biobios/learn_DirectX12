@@ -62,10 +62,10 @@
     <ClInclude Include="RefferenceResolution.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="needInclude.h">
+    <ClInclude Include="Image.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="includingDirectX12.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

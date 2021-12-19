@@ -172,11 +172,11 @@
     <ClInclude Include="DX12Renderer3D.h" />
     <ClInclude Include="IGraphics3D.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="includingDirectX12.h" />
     <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="IWindow3D.h" />
     <ClInclude Include="IWindow3DContent.h" />
     <ClInclude Include="DX12Window3D.h" />
-    <ClInclude Include="needInclude.h" />
     <ClInclude Include="RefferenceResolution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
