@@ -14,7 +14,7 @@ namespace Mylma::Graphics {
 		RGBA_UINT32,
 	};
 
-	namespace PixelFormat {
+	namespace Pixel {
 		struct RGBA_UINT16 {
 			uint16_t r;
 			uint16_t g;
@@ -35,9 +35,12 @@ namespace Mylma::Graphics {
 	/// また画像のメタデータへのアクセスを提供します。
 	/// </summary>
 	class Image {
+		virtual PixelFormat getPixcelFormat() = 0;
+		virtual ColorSpace getColorSpace() = 0;
 		virtual uint32_t getWidth() = 0;
 		virtual uint32_t getHeight() = 0;
-		virtual PixelPtr getPixcel() = 0;
+		virtual uint32_t getPixelByteSize() = 0;
+		virtual PixelPtr getPixel() = 0;
 		virtual PixelPtr* getData() = 0;
 	};
 }
