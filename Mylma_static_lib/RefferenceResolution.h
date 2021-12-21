@@ -25,6 +25,10 @@ namespace Mylma {
 		using ImagePtr = Image*;
 		using ImageRef = Image&;
 
+		class LoadedImage;
+		using LoadedImagePtr = LoadedImage*;
+		using LoadedImageRef = LoadedImage&;
+
 		class IImageReader;
 		using IImageReaderPtr = IImageReader*;
 		using IImageReaderRef = IImageReader&;

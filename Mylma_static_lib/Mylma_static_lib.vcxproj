@@ -91,7 +91,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\unana\programming\lib\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBPNG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -110,7 +110,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\unana\programming\lib\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBPNG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -129,7 +129,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\unana\programming\lib\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBPNG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -148,7 +148,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\unana\programming\lib\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LIBPNG_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -163,20 +163,26 @@
     <ClCompile Include="DirectX12_3D.cpp" />
     <ClCompile Include="DX12Renderer3D.cpp" />
     <ClCompile Include="IWindow3D.cpp" />
+    <ClCompile Include="LoadedImage.cpp" />
     <ClCompile Include="Mylma_static_lib.cpp" />
     <ClCompile Include="DX12Window3D.cpp" />
+    <ClCompile Include="PNGImageReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="DirectX12_3D.h" />
     <ClInclude Include="DX12Renderer3D.h" />
     <ClInclude Include="IGraphics3D.h" />
+    <ClInclude Include="IImageReader.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="includingDirectX12.h" />
+    <ClInclude Include="includingLibpng.h" />
     <ClInclude Include="IRenderer3D.h" />
     <ClInclude Include="IWindow3D.h" />
     <ClInclude Include="IWindow3DContent.h" />
     <ClInclude Include="DX12Window3D.h" />
+    <ClInclude Include="LoadedImage.h" />
+    <ClInclude Include="PNGImageReader.h" />
     <ClInclude Include="RefferenceResolution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
