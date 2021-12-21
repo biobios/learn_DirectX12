@@ -10,6 +10,7 @@ namespace Mylma::GUI {
 	class IWindow3DContent {
 	public:
 		virtual void update(Mylma::Graphics3D::IRenderer3DRef r) = 0;
+		virtual ~IWindow3DContent() = 0 {}
 	};
 
 }

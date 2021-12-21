@@ -12,6 +12,7 @@ namespace Mylma::Graphics3D {
 		virtual void reset() = 0;
 		virtual void setBackground(Mylma::Graphics::ColorRef color) = 0;
 		virtual void setColor(Mylma::Graphics::ColorRef color) = 0;
+		virtual ~IRenderer3D() = 0 {}
 	};
 
 }

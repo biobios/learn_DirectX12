@@ -2,6 +2,8 @@
 #include "RefferenceResolution.h"
 #include "includingDirectX12.h"
 
+#include <array>
+
 #include "IRenderer3D.h"
 #include "DirectX12_3D.h"
 #include "DX12Window3D.h"

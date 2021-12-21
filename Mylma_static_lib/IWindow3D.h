@@ -18,6 +18,7 @@ namespace Mylma::GUI {
 		virtual int32_t getHeight() = 0;
 		void paint();
 		void setContent(Mylma::GUI::IWindow3DContentPtr ptr);
+		virtual ~IWindow3D() = 0 {}
 	protected:
 		/// <summary>
 		/// 必ずサブクラスで代入してください

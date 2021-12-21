@@ -12,6 +12,7 @@ namespace Mylma::Graphics3D {
 //		virtual void registerWindow(Mylma::GUI::Window3DRef window) = 0;
 		virtual Mylma::GUI::IWindow3DRef createWindow(const std::wstring* window_name, int32_t width, int32_t height) = 0;
 //		virtual void repaint(Mylma::GUI::Window3DRef window) = 0;
+		virtual ~IGraphics3D() = 0 {}
 	};
 
 }
