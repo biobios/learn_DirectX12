@@ -56,3 +56,11 @@ namespace Mylma {
 
 	}
 }
+
+namespace mylml {
+	namespace windows {
+		class Window;
+		using WindowPtr = Window*;
+		using WindowRef = Window&;
+	}
+}
