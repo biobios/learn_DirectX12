@@ -6,7 +6,6 @@
 
 #include "IRenderer3D.h"
 #include "DirectX12_3D.h"
-#include "DX12Window3D.h"
 
 namespace {
 	enum class Status {
@@ -23,7 +22,6 @@ namespace Mylma::Graphics3D {
 	public:
 		DX12Renderer3D(
 			DirectX12_3D* dx12,
-			Mylma::GUI::DX12Window3DPtr ptr,
 			ID3D12CommandAllocator* calloc,
 			IDXGISwapChain4* swapchain,
 			ID3D12GraphicsCommandList* commandList,
@@ -38,7 +36,6 @@ namespace Mylma::Graphics3D {
 		void setBackground(Mylma::Graphics::ColorRef color) override;
 		void setColor(Mylma::Graphics::ColorRef color) override;
 
-		bool isPair(Mylma::GUI::IWindow3DPtr ptr);
 	private:
 		float background_color[4] = {1.0F,1.0F,1.0F,1.0F};
 		float color[4] = { 1.0F,1.0F,1.0F,1.0F };
@@ -47,7 +44,6 @@ namespace Mylma::Graphics3D {
 		Status current_status;
 
 		DirectX12_3D* dx12;
-		Mylma::GUI::DX12Window3DPtr window_ptr;
 		ID3D12CommandAllocator* calloc;
 		IDXGISwapChain4* swapchain;
 		ID3D12GraphicsCommandList* commandList;

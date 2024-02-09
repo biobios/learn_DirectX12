@@ -1,7 +1,6 @@
 #include "DX12Renderer3D.h"
 Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	Mylma::Graphics3D::DirectX12_3D* dx12,
-	Mylma::GUI::DX12Window3DPtr ptr,
 	ID3D12CommandAllocator* calloc,
 	IDXGISwapChain4* swapchain,
 	ID3D12GraphicsCommandList* commandList,
@@ -11,7 +10,6 @@ Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	std::array<ID3D12Resource*, 2> backBuffers
 ) {
 	this->dx12 = dx12;
-	this->window_ptr = ptr;
 	this->calloc = calloc;
 	this->swapchain = swapchain;
 	this->commandList = commandList;
@@ -104,8 +102,4 @@ void Mylma::Graphics3D::DX12Renderer3D::setColor(Mylma::Graphics::ColorRef clr) 
 	for (int i = 0; i < 4; i++) {
 		this->color[i] = c[i];
 	}
-}
-
-bool Mylma::Graphics3D::DX12Renderer3D::isPair(Mylma::GUI::IWindow3DPtr ptr) {
-	return window_ptr == ptr;
 }

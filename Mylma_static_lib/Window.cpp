@@ -1,9 +1,13 @@
 #include "Window.h"
-mylml::windows::Window::Window(const std::wstring* name, LONG window_width, LONG window_height) {
+mylml::windows::Window::Window(const std::wstring& name, LONG window_width, LONG window_height) {
+
+	width = window_width;
+	height = window_height;
+
 	WNDCLASSEX w = {};
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)messageRouter;
-	w.lpszClassName = name->data();
+	w.lpszClassName = name.data();
 	w.hInstance = GetModuleHandle(nullptr);
 
 	RegisterClassEx(&w);
@@ -12,7 +16,7 @@ mylml::windows::Window::Window(const std::wstring* name, LONG window_width, LONG
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	window_handle = CreateWindow(w.lpszClassName,
-		name->data(),
+		name.data(),
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -21,7 +25,7 @@ mylml::windows::Window::Window(const std::wstring* name, LONG window_width, LONG
 		nullptr,
 		nullptr,
 		w.hInstance,
-		nullptr);
+		this);
 }
 
 void mylml::windows::Window::setVisible(bool visible) {
@@ -38,7 +42,11 @@ LRESULT CALLBACK mylml::windows::Window::messageRouter(HWND hwnd, UINT msg, WPAR
 	else {
 		this_ = reinterpret_cast<WindowPtr>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	}
-	return this_->eventHandler(hwnd, msg, wparam, lparam);
+
+	if(this_ != nullptr)
+		return this_->eventHandler(hwnd, msg, wparam, lparam);
+	else
+		return ::DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
 LRESULT mylml::windows::Window::eventHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) noexcept {
@@ -50,4 +58,19 @@ LRESULT mylml::windows::Window::eventHandler(HWND hwnd, UINT msg, WPARAM wparam,
 	}
 
 	return ::DefWindowProc(hwnd, msg, wparam, lparam);//ä˘íËÇÃèàóù
+}
+
+LONG mylml::windows::Window::getWidth() const
+{
+	return width;
+}
+
+LONG mylml::windows::Window::getHeight() const
+{
+	return height;
+}
+
+HWND mylml::windows::Window::getHandle() const
+{
+	return window_handle;
 }

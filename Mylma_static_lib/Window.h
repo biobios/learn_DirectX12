@@ -9,13 +9,18 @@ namespace mylml::windows {
 	class Window
 	{
 	public:
-		Window(const std::wstring* name, LONG width, LONG height);
+		Window(const std::wstring& name, LONG width, LONG height);
 		void setVisible(bool visible);
 		static LRESULT CALLBACK messageRouter(HWND, UINT, WPARAM, LPARAM) noexcept;
-		LRESULT eventHandler(HWND, UINT, WPARAM, LPARAM) noexcept;
+		virtual LRESULT eventHandler(HWND, UINT, WPARAM, LPARAM) noexcept;
+		LONG getWidth() const;
+		LONG getHeight() const;
+		HWND getHandle() const;
 	protected:
 	private:
 		HWND window_handle;
+		LONG width;
+		LONG height;
 	};
 }
 

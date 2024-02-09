@@ -2,13 +2,19 @@
 
 namespace Mylma {
 	namespace GUI {
-		class IWindow3D;
-		using IWindow3DPtr = IWindow3D*;
-		using IWindow3DRef = IWindow3D&;
+		template <typename T>
+		class Window3D;
+		template <typename T>
+		using Window3DPtr = Window3D<T>*;
+		template <typename T>
+		using Window3DRef = Window3D<T>&;
 
-		class IWindow3DContent;
-		using IWindow3DContentPtr = IWindow3DContent*;
-		using IWindow3DContentRef = IWindow3DContent&;
+		template <typename T>
+		class Window3DContent;
+		template <typename T>
+		using Window3DContentPtr = Window3DContent<T>*;
+		template <typename T>
+		using Window3DContentRef = Window3DContent<T>&;
 
 		class DX12Window3D;
 		using DX12Window3DPtr = DX12Window3D*;
