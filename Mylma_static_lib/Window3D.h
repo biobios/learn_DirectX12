@@ -19,7 +19,7 @@ namespace Mylma::GUI {
 	public:
 		Window3D(const std::wstring& title, LONG width, LONG height, graphics_t& g) : mylml::windows::Window(title, width, height)
 		{
-			renderer = g.createRendererForHwnd(getHandle(), width, height);
+			renderer = new graphics_t::renderer_t(&g, getHandle(), width, height);
 		}
 		void paint();
 		void setContent(Window3DContent<graphics_t>* content);
@@ -32,8 +32,9 @@ namespace Mylma::GUI {
 	inline void Window3D<Mylma::Graphics3D::DirectX12_3D>::paint()
 	{
 		if(content == nullptr) return;
-		
+		renderer->startFrame();
 		content->update(*renderer);
+		renderer->endFrame();
 	}
 
 	inline void Window3D<Mylma::Graphics3D::DirectX12_3D>::setContent(Window3DContent<graphics_t>* content)

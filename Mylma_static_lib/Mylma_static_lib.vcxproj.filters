@@ -37,12 +37,12 @@
     <Filter Include="ソース ファイル\mylml\windows">
       <UniqueIdentifier>{78aae50b-aea8-4a6f-a8a8-c917fad335a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DirectX12">
+      <UniqueIdentifier>{06e2245b-458d-4165-a0db-4ab2a450478a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mylma_static_lib.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX12_3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
@@ -59,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>ソース ファイル\mylml\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX12_3D.cpp">
+      <Filter>ソース ファイル\DirectX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

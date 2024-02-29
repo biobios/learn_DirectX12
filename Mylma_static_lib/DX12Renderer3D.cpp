@@ -1,32 +1,23 @@
 #include "DX12Renderer3D.h"
 Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	Mylma::Graphics3D::DirectX12_3D* dx12,
-	ID3D12CommandAllocator* calloc,
 	IDXGISwapChain4* swapchain,
-	ID3D12GraphicsCommandList* commandList,
-	ID3D12CommandQueue* commandQue,
 	ID3D12DescriptorHeap* rtvHeaps,
-	ID3D12Device* device,
-	std::array<ID3D12Resource*, 2> backBuffers
+	std::array<ID3D12Resource*, 2> backBuffers,
+	UINT RTVDescriptorSize
 ) {
 	this->dx12 = dx12;
-	this->calloc = calloc;
+	this->cmdList = new DirectX12_3D::CommandList(dx12);
 	this->swapchain = swapchain;
-	this->commandList = commandList;
-	this->commandQue = commandQue;
 	this->rtvHeaps = rtvHeaps;
-	this->device = device;
 	this->sc_backBuffers = backBuffers;
-
-	device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
-
-	calloc->Reset();
+	this->rtvDescriptorSize = RTVDescriptorSize;
 
 	UINT bbIdx = swapchain->GetCurrentBackBufferIndex();
 
 	current_rtv_Handle = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 
-	current_rtv_Handle.ptr += bbIdx * device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	current_rtv_Handle.ptr += bbIdx * RTVDescriptorSize;
 
 	bb_resrc_barr.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	bb_resrc_barr.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -35,56 +26,49 @@ Mylma::Graphics3D::DX12Renderer3D::DX12Renderer3D(
 	bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
-	commandList->ResourceBarrier(1, &bb_resrc_barr);
-	commandList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
+	cmdList->setResourceBarrier(1, &bb_resrc_barr);
+	cmdList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
 
 	current_status = Status::READY;
 }
 
 void Mylma::Graphics3D::DX12Renderer3D::clear() {
-	commandList->ClearRenderTargetView(current_rtv_Handle, background_color, 0, nullptr);
+	cmdList->ClearRenderTargetView(current_rtv_Handle, background_color, 0, nullptr);
 }
 
-void Mylma::Graphics3D::DX12Renderer3D::execute() {
-	commandList->Close();
-	ID3D12CommandList* cmdlists[] = { commandList };
-	commandQue->ExecuteCommandLists(1, cmdlists);
-
+void Mylma::Graphics3D::DX12Renderer3D::endFrame() {
+	
 	bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-	commandList->ResourceBarrier(1, &bb_resrc_barr);
+	cmdList->setResourceBarrier(1, &bb_resrc_barr);
+	
+	cmdList->close();
+	cmdList->execute(dx12);
 
 	swapchain->Present(1, 0);
 	current_status = Status::EXECUTING;
 }
 
-void Mylma::Graphics3D::DX12Renderer3D::reset() {
-	if (current_status == Status::EXECUTING) {
-		commandQue->Signal(fence, ++fenceVal);
-		if (fence->GetCompletedValue() != fenceVal) {
-			auto e = CreateEvent(nullptr, false, false, nullptr);
-			fence->SetEventOnCompletion(fenceVal, e);
-			WaitForSingleObject(e, INFINITE);
-			CloseHandle(e);
-		}
-		current_status = Status::NOT_READY;
-	}
+void Mylma::Graphics3D::DX12Renderer3D::startFrame() {
+	
+	cmdList->waitForCompletion(dx12);
+
 	if (current_status == Status::NOT_READY) {
-		calloc->Reset();
-		commandList->Reset(calloc, nullptr);
+		
+		cmdList->reset();
 
 		UINT bbIdx = swapchain->GetCurrentBackBufferIndex();
 
 		current_rtv_Handle = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 
-		current_rtv_Handle.ptr += bbIdx * device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		current_rtv_Handle.ptr += bbIdx * rtvDescriptorSize;
 
 		bb_resrc_barr.Transition.pResource = sc_backBuffers[bbIdx];
 		bb_resrc_barr.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 		bb_resrc_barr.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
-		commandList->ResourceBarrier(1, &bb_resrc_barr);
-		commandList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
+		cmdList->setResourceBarrier(1, &bb_resrc_barr);
+		cmdList->OMSetRenderTargets(1, &current_rtv_Handle, true, nullptr);
 
 		current_status = Status::READY;
 	}
